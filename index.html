@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<!-- saved from url=(0040)http://47.98.38.137:9999/passTest/?name= -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+
+    <title>浙江大学通行码</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="main.css">
+    <script src="jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src=".jquery.qrcode.min.js"></script>
+    <script>setTimeout("location=location; ", (24 * 3600 * 1000) * 3); </script>
+    <script>
+        jQuery(function () {
+
+            var colour = '';
+            var flag = '';
+            if (null == colour || "" == colour) {
+                colour = "CCCCCC";
+            }
+
+            function getQueryVariable(variable) {
+                var query = window.location.search.substring(1);
+                var vars = query.split("&");
+                for (var i = 0; i < vars.length; i++) {
+                    var pair = vars[i].split("=");
+                    if (pair[0] == variable) {
+                        return pair[1];
+                    }
+                }
+                return (false);
+            }
+
+            // function getQueryString(name) {
+            //     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            //     var r = window.location.search.substr(1).match(reg);
+            //     if (r != null) return decodeURI(r[2]);
+            //     return null;
+            // }
+
+            var name = getQueryString("name");
+            var identity = getQueryString("identity");
+            if(identity != null){
+                $(".bgr-blue").html(identity);
+            }
+            else{
+                $(".bgr-blue").html("本科生");
+            }
+            console.log(name + "的通行码")
+            $("#name").html(name + "的通行码")
+            var mzt = '';
+            var dateTime = '';
+            //var array=getJkm();
+            var array = [];
+            Date.prototype.format = function (fmt) {
+                var o = {
+                    "M+": this.getMonth() + 1, //月份
+                    "d+": this.getDate(), //日
+                    "h+": this.getHours(), //小时
+                    "m+": this.getMinutes(), //分
+                    "s+": this.getSeconds(), //秒
+                    "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                    "S": this.getMilliseconds() //毫秒
+                };
+                if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+                for (var k in o)
+                    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+                return fmt;
+            }
+            Date.prototype.Format = function (fmt) {
+                var o = {
+                    "M+": this.getMonth() + 1, //月份
+                    "d+": this.getDate(), //日
+                    "H+": this.getHours(), //小时
+                    "m+": this.getMinutes(), //分
+                    "s+": this.getSeconds(), //秒
+                    "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                    "S": this.getMilliseconds() //毫秒
+                };
+                if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+                for (var k in o)
+                    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+                return fmt;
+            };
+            let date = new Date();
+            let day1 = date.Format("yyyy-MM-dd HH:mm:ss");
+            let day2 = new Date();
+            day2.setDate(date.getDate() - 1);
+            let day3 = new Date();
+            day3.setDate(date.getDate() + 5);
+            let start = day2.format("yyyy-MM-dd");
+            let end = day3.format("yyyy-MM-dd");
+            // $(".time").html("有效期：" + start + " - " + end)
+            console.log(day1, start, end);
+            var obj = {
+                mzt: "green",
+                dateTime: day1
+            }
+
+            array.push(obj)
+            console.log(array)
+            if (array.length > 0) {
+                mzt = array[0].mzt;
+                dateTime = array[0].dateTime;
+            }
+            // if (mzt != 'green') {
+            //     colour = "CCCCCC";
+            // }
+            // if (mzt == 'green') {
+            //     $("#hzjkm").append('<div  class="hz" style="color: #55b957">健康码为 绿码</div>');
+            // }
+            // if (mzt == 'yellow') {
+            //     $("#hzjkm").append('<div  class="hz" style="color: #ee8232">健康码为 黄码</div>');
+            // }
+            // if (mzt == 'red') {
+            //     $("#hzjkm").append('<div class="hz" style="color: #e8453b">健康码为 红码</div>');
+            // }
+
+            // if (mzt == 'orange') {
+            //     $("#hzjkm").append('<div class="hz" style="color: #FFA500">健康码为 橙码</div>');
+            // }
+            // if (mzt == '') {
+            //     colour = "1E90FF";
+            //     $("#hzjkm").append('<div class="hz" style="color: #006bc7">健康码获取失败（请打开支付宝出示）</div>');
+            // }
+            if (mzt == '' && flag == 'Invalid') {
+                colour = "CCCCCC";
+            }
+            // if (dateTime != '') {
+            //     $("#dateTime").append('<div class="time">同步时间：' + dateTime + '</div>');
+            // }
+
+            // 已删除
+            if ('1' == '1') {
+                colour = 'CCCCCC';
+            }
+            // 核酸检测为是
+            if ('否' == '是') {
+                colour = 'EB6E18';
+            }
+
+            var account = '3170102488';
+            // jQuery('#output').qrcode({
+            //     render	: "table",
+            //     width: 180,
+            //     height: 180,
+            //     text	: 'jao;lsignlaksdfng;sldjfgl;sdnfgsoldfijgsdlfnglsdifjgbsdlnfge',
+            //     render: "canvas", //也可以替换为table
+            //     foreground: "#"+"0270ff",
+            //     background: "#FFF",
+            //
+            // });
+        })
+
+        function getJkm() {
+            var datas = '';
+            $.ajax({
+                type: "GET",
+                url: "/pass_code/jkm?account=3170102488&cardNo=330481199811063011&identity=3",
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    datas = data;
+                }
+            });
+            return datas;
+        }
+
+        if (true) {
+            //获取系统时间
+            function showTime() {
+                nowtime = new Date();
+                year = nowtime.getFullYear();//年
+                month = nowtime.getMonth() + 1;//月
+                day = nowtime.getDate();//日
+                hour = nowtime.getHours();//时
+                minutes = nowtime.getMinutes(); //分
+                seconds = nowtime.getSeconds(); //秒
+                //文字增加空格
+                document.getElementById("div_timer").style = "white-space:pre;";
+                //显示时间
+                document.getElementById("div_timer").innerText = p(month) + "月" + p(day) + "日 " + p(hour) + ":" + p(minutes) + ":" + p(seconds);
+            }
+
+            setInterval("showTime()", 1000);
+
+            //月日时分秒小于10补0
+            function p(s) {
+                return s < 10 ? '0' + s : s;
+            }
+        }
+
+    </script>
+</head>
+
+
+<body class="blue-bg">
+<div class="banner"><img src="text.png"></div>
+
+
+<div class="content-box">
+    <div class="top-title">
+        <h3 id="name">陈芷轲的通行码</h3>
+
+
+        <span class="bgr-blue">本科生</span>
+
+
+    </div>
+
+    <strong>
+        <div class="time2" id="div_timer" style="white-space: pre;">07月09日 15:56:01</div>
+    </strong>
+
+    <div class="qr">
+
+        <div id="output" style="margin-top: 10px;margin-bottom: 10px">
+            <!--canvas width="180" height="180"></canvas-->
+            <div width="180px" height="180px">
+                <img src="qrcode.png">
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="time">有效期：2020-07-05 - 2020-07-12</div>
+
+
+    <div id="hzjkm"><div class="hz" style="color: #55b957">健康码为 绿码</div></div>
+
+
+    <div id="dateTime"><div class="time">同步时间：2020-06-13 15:53:57</div></div>
+
+    <p class="tip" style="margin-top: 10px;">凭蓝码可在浙江大学校园内通行<br>请主动出示，配合检查</p>
+
+
+    <div style="text-align:center; margin-top: 10px">
+        <a target="_blank" href="http://one.zju.edu.cn/taskcenter/wechat/index">办事大厅</a>&nbsp;&nbsp;&nbsp;
+        <a target="_blank" href="http://one.zju.edu.cn/pass_code/zx/getList">申请记录</a>&nbsp;&nbsp;&nbsp;
+
+
+    </div>
+</div>
+<div class="bottom-tip">
+    <h3>安 保 处 ：0571-88206110</h3>
+    <a href="http://xwfw.zju.edu.cn/mobile/redir.php?catalog_id=371039" target="_blank" class="link-btn">常见问题</a>
+    <h3>技术支持：0571-87951669</h3>
+</div>
+
+
+
+</body></html>
